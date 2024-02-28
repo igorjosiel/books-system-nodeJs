@@ -1,5 +1,5 @@
 const booksRouter = require('./book');
-const favoritesRouter = require('./favorite');
+const favoriteRouter = require('./favorite');
 
 const routes = [
     {
@@ -9,8 +9,8 @@ const routes = [
     },
     {
         id: 1,
-        path: '/favorites',
-        router: favoritesRouter,
+        path: '/favorite',
+        router: favoriteRouter,
     }
 ];
 
