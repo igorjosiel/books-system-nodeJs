@@ -1,4 +1,4 @@
-const { getAllBooks, getBookById, addBook, updateBook, deleteBookById } = require("../services/book")
+const { getAllBooks, getBookById, addBook, updateBook, deleteBookById } = require("../services/book");
 
 function getBooks(req, res) {
     try {
@@ -21,7 +21,7 @@ function getBook(req, res) {
             res.send(book);
         } else {
             res.status(422);
-            res.send("Id inválido");
+            res.send("Id inválido!");
         }
     } catch (error) {
         res.status(500);
@@ -37,10 +37,10 @@ function postBook(req, res) {
             addBook(newBook);
 
             res.status(201);
-            res.send("Livro inserido com sucesso");
+            res.send("Livro inserido com sucesso!");
         } else {
             res.status(422);
-            res.send("O campo nome é obrigatório");
+            res.send("O campo nome é obrigatório!");
         }
     } catch(error) {
         res.status(500);
@@ -57,10 +57,10 @@ function patchBook(req, res) {
 
             updateBook(body, id);
 
-            res.send("Item modificado com sucesso");
+            res.send("Item modificado com sucesso!");
         } else {
             res.status(422);
-            res.send("Id inválido");
+            res.send("Id inválido!");
         }
     } catch(error) {
         res.status(500);
@@ -75,10 +75,10 @@ function deleteBook(req, res) {
         if(id && Number(id)) {
             deleteBookById(id);
 
-            res.send("livro deletado com sucesso");
+            res.send("Livro deletado com sucesso!");
         } else {
             res.status(422);
-            res.send("ID inválido");
+            res.send("ID inválido!");
         }
     } catch (error) {
         res.status(500);

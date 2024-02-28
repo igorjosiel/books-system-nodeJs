@@ -1,4 +1,4 @@
-const { getAllFavorite, addFavorite, deleteFavoriteById } = require("../services/favorite")
+const { getAllFavorite, addFavorite, deleteFavoriteById } = require("../services/favorite");
 
 function getFavorite(req, res) {
     try {
@@ -18,7 +18,7 @@ function postFavorite(req, res) {
         addFavorite(id);
 
         res.status(201);
-        res.send("Livro inserido com sucesso");
+        res.send("Livro inserido com sucesso!");
     } catch(error) {
         res.status(500);
         res.send(error.message);
@@ -32,10 +32,10 @@ function deleteFavorite(req, res) {
         if(id && Number(id)) {
             deleteFavoriteById(id);
 
-            res.send("Favorito deletado com sucesso");
+            res.send("Favorito deletado com sucesso!");
         } else {
             res.status(422);
-            res.send("ID inválido");
+            res.send("ID inválido!");
         }
     } catch (error) {
         res.status(500);
