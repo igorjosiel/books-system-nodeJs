@@ -1,11 +1,12 @@
 const fs = require("fs");
+const { readFile, writeFile } = require("../utils/handleJsonFile");
 
 function getAllBooks() {
-    return JSON.parse(fs.readFileSync("books.json"));
+    return readFile("books");
 }
 
 function getBookById(id) {
-    const books = JSON.parse(fs.readFileSync("books.json"));
+    const books = readFile("books");
 
     const filteredBook = books.filter(book => book.id === id )[0];
 
@@ -13,15 +14,15 @@ function getBookById(id) {
 }
 
 function addBook(newBook) {
-    const books = JSON.parse(fs.readFileSync("books.json"));
+    const books = readFile("books");
 
     const newBooksList = [...books, newBook];
 
-    fs.writeFileSync("books.json", JSON.stringify(newBooksList));
+    writeFile("books", newBooksList);
 }
 
 function updateBook(updates, id) {
-    let currentBooks = JSON.parse(fs.readFileSync("books.json"));
+    let currentBooks = readFile("books");
 
     const changedIndex = currentBooks.findIndex(book => book.id === id);
 
@@ -32,15 +33,15 @@ function updateBook(updates, id) {
 
     currentBooks[changedIndex] = changedContent;
 
-    fs.writeFileSync("books.json", JSON.stringify(currentBooks));
+    writeFile("books", currentBooks);
 }
 
 function deleteBookById(id) {
-    const books = JSON.parse(fs.readFileSync("books.json"));
+    const books = readFile("books");
 
     const filteredBooks = books.filter(book => book.id !== id);
 
-    fs.writeFileSync("books.json", JSON.stringify(filteredBooks));
+    writeFile("books", filteredBooks);
 }
 
 module.exports = {
