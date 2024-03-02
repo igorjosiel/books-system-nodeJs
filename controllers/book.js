@@ -65,21 +65,25 @@ function postBook(req, res) {
 
 function patchBook(req, res) {
     try {
-        const id = req.params.id;
+        const paramId = req.params.id;
+        const bodyId = req.body.id;
 
-        const idIsValid = isIdValid(id);
-        const idExists = verifyIfIdExists("books", id);
+        const paramIdIsValid = isIdValid(paramId);
+        const bodyIdIsValid = isIdValid(bodyId);
 
-        if(idIsValid && idExists) {
+        const paramIdExists = verifyIfIdExists("books", paramId);
+        const bodyIdExists = verifyIfIdExists("books", bodyId);
+
+        if(paramIdIsValid && bodyIdIsValid && paramIdExists && !bodyIdExists) {
             const body = req.body;
 
-            updateBook(body, id);
+            updateBook(body, paramId);
 
             return res.send("Item modificado com sucesso!");
         }
             
         res.status(422);
-        res.send("Id inválido!");
+        res.send("Esse id já existe ou é inválido!");
     } catch(error) {
         res.status(500);
         res.send(error.message);
