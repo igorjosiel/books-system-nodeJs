@@ -1,14 +1,22 @@
 const { getAllBooks, getBookById, addBook, updateBook, deleteBookById } = require("../services/book");
 const { verifyIfIdExists, isIdValid } = require("../utils/verifyId");
+const { sendResponseData, sendResponseMessage } = require("../utils/sendResponse");
+const { 
+    postMessage,
+    patchMessage,
+    deleteMessage,
+    invalidIdOrNotExists,
+    invalidIdOrItExists,
+    requiredField,
+} = require("../utils/handleMessages");
 
 function getBooks(req, res) {
     try {
         const books = getAllBooks();
         
-        res.send(books);
+        sendResponseData(res, 200, books);
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -22,14 +30,12 @@ function getBook(req, res) {
         if(idIsValid && idExists) {
             const book = getBookById(id);
 
-            return res.send(book);
+            return sendResponseData(res, 200, book);
         }
 
-        res.status(422);
-        res.send("Id inválido!");
+        sendResponseMessage(res, 422, invalidIdOrNotExists());
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -41,8 +47,7 @@ function postBook(req, res) {
         const idExists = verifyIfIdExists("books", id);
 
         if (!name) {
-            res.status(422);
-            return res.send("O campo nome é obrigatório!");
+            return sendResponseMessage(res, 422, requiredField("nome"));
         }
 
         if(idIsValid && !idExists) {
@@ -51,15 +56,12 @@ function postBook(req, res) {
                 name,
             });
 
-            res.status(201);
-            return res.send("Livro inserido com sucesso!");
+            return sendResponseMessage(res, 201, postMessage("Livro"));
         }
         
-        res.status(422);
-        res.send("Esse Id já existe ou é inválido!");
+        sendResponseMessage(res, 422, invalidIdOrItExists());
     } catch(error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -79,14 +81,12 @@ function patchBook(req, res) {
 
             updateBook(body, paramId);
 
-            return res.send("Item modificado com sucesso!");
+            sendResponseMessage(res, 200, patchMessage("Livro"));
         }
             
-        res.status(422);
-        res.send("Esse id já existe ou é inválido!");
+        sendResponseMessage(res, 422, invalidIdOrItExists());
     } catch(error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -100,14 +100,12 @@ function deleteBook(req, res) {
         if(idIsValid && idExists) {
             deleteBookById(id);
 
-            return res.send("Livro deletado com sucesso!");
+            return sendResponseMessage(res, 200, deleteMessage("Livro"));
         }
             
-        res.status(422);
-        res.send("ID inválido!");
+        sendResponseMessage(res, 422, invalidIdOrNotExists());
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 

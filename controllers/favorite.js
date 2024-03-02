@@ -1,14 +1,20 @@
 const { getAllFavorite, addFavorite, deleteFavoriteById } = require("../services/favorite");
 const { isIdValid, verifyIfIdExists } = require("../utils/verifyId");
+const { sendResponseData, sendResponseMessage } = require("../utils/sendResponse");
+const {
+    postMessage,
+    invalidIdOrItExists,
+    invalidIdOrNotExists,
+    deleteMessage,
+} = require("../utils/handleMessages");
 
 function getFavorite(req, res) {
     try {
         const favorite = getAllFavorite();
 
-        res.send(favorite);
+        sendResponseData(res, 200, favorite);
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -24,15 +30,12 @@ function postFavorite(req, res) {
         if (idIsValid && idExistsInBook && !idExistsInFavorite) {
             addFavorite(id);
 
-            res.status(201);
-            return res.send("Livro inserido com sucesso!");
+            return sendResponseMessage(res, 201, postMessage("Favorito"));
         }
 
-        res.status(422);
-        res.send("Esse Id já existe ou é inválido!");
+        sendResponseMessage(res, 422, invalidIdOrItExists());
     } catch(error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
@@ -46,14 +49,12 @@ function deleteFavorite(req, res) {
         if(idIsValid && idExists) {
             deleteFavoriteById(id);
 
-            return res.send("Favorito deletado com sucesso!");
+            return sendResponseMessage(res, 200, deleteMessage("Favorito"));
         }
             
-        res.status(422);
-        res.send("ID inválido!");
+        sendResponseMessage(res, 422, invalidIdOrNotExists());
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
+        sendResponseMessage(res, 500, error.message);
     }
 }
 
