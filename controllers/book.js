@@ -40,8 +40,6 @@ function postBook(req, res) {
         const idIsValid = isIdValid(id);
         const idExists = verifyIfIdExists("books", id);
 
-        console.log('Teste');
-
         if (!name) {
             res.status(422);
             return res.send("O campo nome é obrigatório!");
