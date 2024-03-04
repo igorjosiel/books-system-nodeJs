@@ -1,8 +1,9 @@
 const { Router } = require('express');
+const { getAuthors } = require('../controllers/author');
 
 const router = Router();
 
-router.get('/', (req, res) => console.log('Teste'));
+router.get('/', getAuthors);
 router.get('/:id');
 router.post('/');
 router.patch('/:id');
