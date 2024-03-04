@@ -1,7 +1,12 @@
-const { getAllAuthors, getAuthorById } = require('../services/author');
-const { invalidIdOrNotExists } = require('../utils/handleMessages');
+const { getAllAuthors, getAuthorById, addAuthor } = require('../services/author');
 const { sendResponseData, sendResponseMessage } = require('../utils/sendResponse');
 const { isIdValid, verifyIfIdExists } = require('../utils/verifyId');
+const {
+    invalidIdOrNotExists,
+    requiredFields,
+    invalidIdOrItExists,
+    postMessage,
+} = require('../utils/handleMessages');
 
 function getAuthors(req, res) {
     try {
@@ -32,7 +37,36 @@ function getAuthor(req, res) {
     }
 }
 
+function postAuthor(req, res) {
+    try {
+        const { id, name, birth, publishedBooks } = req.body;
+
+        const idIsValid = isIdValid(id);
+        const idExists = verifyIfIdExists("authors", id);
+
+        if (!name || !birth || !publishedBooks) {
+            return sendResponseMessage(res, 422, requiredFields('nome, data de nascimento e livros publicados'));
+        }
+
+        if (idIsValid && !idExists) {
+            addAuthor({
+                id,
+                name,
+                birth,
+                publishedBooks,
+            });
+
+            return sendResponseMessage(res, 201, postMessage('Autor'));
+        }
+
+        sendResponseMessage(res, 422, invalidIdOrItExists());
+    } catch (error) {
+        sendResponseMessage(res, 500, error.message);
+    }
+}
+
 module.exports = {
     getAuthors,
     getAuthor,
+    postAuthor,
 }

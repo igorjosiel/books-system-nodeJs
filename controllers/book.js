@@ -41,7 +41,7 @@ function getBook(req, res) {
 
 function postBook(req, res) {
     try {
-        const {id, name} = req.body;
+        const { id, name } = req.body;
 
         const idIsValid = isIdValid(id);
         const idExists = verifyIfIdExists("books", id);
