@@ -8,9 +8,7 @@ function getAllBooks() {
 function getBookById(id) {
     const books = readFile("books");
 
-    const filteredBook = books.filter(book => book.id === id )[0];
-
-    return filteredBook;
+    return books.filter(book => book.id === id )[0];
 }
 
 function addBook(newBook) {

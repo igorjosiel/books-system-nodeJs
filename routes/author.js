@@ -1,10 +1,10 @@
 const { Router } = require('express');
-const { getAuthors } = require('../controllers/author');
+const { getAuthors, getAuthor } = require('../controllers/author');
 
 const router = Router();
 
 router.get('/', getAuthors);
-router.get('/:id');
+router.get('/:id', getAuthor);
 router.post('/');
 router.patch('/:id');
 router.delete('/:id');

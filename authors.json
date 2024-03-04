@@ -1,1 +1,12 @@
-[]
+[{
+    "id": "1",
+    "name": "Machado de Assis",
+    "birth": "1990",
+    "publishedBooks": "10"
+},
+{
+    "id": "2",
+    "name": "Bruno de Alencar",
+    "birth": "1970",
+    "publishedBooks": "33"
+}]
