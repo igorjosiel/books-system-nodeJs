@@ -92,7 +92,7 @@ function patchBook(req, res) {
 
 function deleteBook(req, res) {
     try {
-        const id = req.params.id;
+        const { id } = req.params;
 
         const idIsValid = isIdValid(id);
         const idExists = verifyIfIdExists("books", id);

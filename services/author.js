@@ -18,8 +18,17 @@ function addAuthor(newAuthor) {
     writeFile("authors", newAuthorsList);
 }
 
+function deleteAuthorById(id) {
+    const authors = readFile('authors');
+
+    const filteredAuthors = authors.filter(author => author.id !== id);
+
+    writeFile('authors', filteredAuthors);
+}
+
 module.exports = {
     getAllAuthors,
     getAuthorById,
     addAuthor,
+    deleteAuthorById,
 }

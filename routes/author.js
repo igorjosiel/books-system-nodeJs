@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAuthors, getAuthor, postAuthor } = require('../controllers/author');
+const { getAuthors, getAuthor, postAuthor, deleteAuthor } = require('../controllers/author');
 
 const router = Router();
 
@@ -7,6 +7,6 @@ router.get('/', getAuthors);
 router.get('/:id', getAuthor);
 router.post('/', postAuthor);
 router.patch('/:id');
-router.delete('/:id');
+router.delete('/:id', deleteAuthor);
 
 module.exports = router;
