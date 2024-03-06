@@ -1,4 +1,3 @@
-const fs = require("fs");
 const { readFile, writeFile } = require("../utils/handleJsonFile");
 
 function getAllBooks() {

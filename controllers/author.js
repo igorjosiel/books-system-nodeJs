@@ -1,4 +1,10 @@
-const { getAllAuthors, getAuthorById, addAuthor, deleteAuthorById } = require('../services/author');
+const {
+    getAllAuthors,
+    getAuthorById,
+    addAuthor,
+    deleteAuthorById,
+    updateAuthorById,
+} = require('../services/author');
 const { sendResponseData, sendResponseMessage } = require('../utils/sendResponse');
 const { isIdValid, verifyIfIdExists } = require('../utils/verifyId');
 const {
@@ -7,6 +13,7 @@ const {
     invalidIdOrItExists,
     postMessage,
     deleteMessage,
+    patchMessage,
 } = require('../utils/handleMessages');
 
 function getAuthors(req, res) {
@@ -85,9 +92,35 @@ function deleteAuthor(req, res) {
     }
 }
 
+function patchAuthor(req, res) {
+    try {
+        const paramId = req.params.id;
+        const bodyId = req.body.id;
+
+        const paramIdIsValid = isIdValid(paramId);
+        const bodyIdIsValid = isIdValid(bodyId);
+
+        const paramIdExists = verifyIfIdExists("authors", paramId);
+        const bodyIdExists = verifyIfIdExists("authors", bodyId);
+
+        if (paramIdIsValid && bodyIdIsValid && paramIdExists && !bodyIdExists) {
+            const body = req.body;
+            
+            updateAuthorById(body, paramId);
+
+            return sendResponseMessage(res, 200, patchMessage('Autor'));
+        }
+
+        sendResponseMessage(res, 422, invalidIdOrItExists());
+    } catch (error) {
+        sendResponseMessage(res, 500, error.message);
+    }
+}
+
 module.exports = {
     getAuthors,
     getAuthor,
     postAuthor,
     deleteAuthor,
+    patchAuthor,
 }

@@ -26,9 +26,25 @@ function deleteAuthorById(id) {
     writeFile('authors', filteredAuthors);
 }
 
+function updateAuthorById(updates, id) {
+    const currentAuthors = readFile('authors');
+
+    const changedIndex = currentAuthors.findIndex(author => author.id === id);
+
+    const changedContent = {
+        ...currentAuthors[changedIndex],
+        ...updates,
+    }
+
+    currentAuthors[changedIndex] = changedContent;
+
+    writeFile('authors', currentAuthors);
+}
+
 module.exports = {
     getAllAuthors,
     getAuthorById,
     addAuthor,
     deleteAuthorById,
+    updateAuthorById,
 }

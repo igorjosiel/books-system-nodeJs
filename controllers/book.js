@@ -81,7 +81,7 @@ function patchBook(req, res) {
 
             updateBook(body, paramId);
 
-            sendResponseMessage(res, 200, patchMessage("Livro"));
+            return sendResponseMessage(res, 200, patchMessage("Livro"));
         }
             
         sendResponseMessage(res, 422, invalidIdOrItExists());
